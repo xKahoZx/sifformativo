@@ -1,0 +1,54 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar Entradas
+
+{% endblock %}
+
+{% block content %}
+	<h3 align="center">Entradas</h3>
+	{% if user.is_authenticated %}
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_agregar_entrada' %}"><i class="material-icons right">queue</i>Nuevo</a>
+	
+		<div >
+			{% if entra %}
+				<table class="bordered striped highlight centered">
+			        <thead>
+			          <tr>
+			          	  <th data-field="id">Id</th>
+			              <th data-field="fecha">Fecha</th>
+			              <th data-field="prod">Producto</th>
+			              <th data-field="cant">Cantidad</th>
+			              {% if user.is_staff%}
+			              	<th data-field="options">Opcion</th>
+			              {% else %}
+			              	<th data-field="options">Opciones</th>
+			              {% endif %}
+			          </tr> 
+			        </thead>
+			        <tbody>
+			        	{%for i in entra %}
+				        	<tr>
+				        		<td>{{i.id}}</td>
+				        		<td>{{i.fecha_ingreso}}</td>
+				        		<td>{{i.producto}}</td>
+				        		<td>{{i.cantidad}}</td>
+				        		<td ><a class="mdl-navigation__link " href="/entrada/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+				        		{% if  user.is_superuser %}
+						       		 <a class="mdl-navigation__link " href="/edit/entrada/{{ i.id }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>	
+						        {% endif %}	          	
+				        	</tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5><b>No existen entradas disponibles</b></h5>
+			{% endif %}
+		</div>
+	
+	{% else %}
+		<P>Debes estar autenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+	
+	{% endif %}
+			<br>	
+{% endblock %}

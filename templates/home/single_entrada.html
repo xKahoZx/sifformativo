@@ -1,0 +1,39 @@
+{% extends 'base.html '%}
+
+{% block title %}
+	Entrada
+{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+	<div class="row center" >
+        <div class="col s12 m7">
+          <div class="card Large">
+            <div class="card-image">
+              <img src="/media/{{entra.producto.imagen}}" height="250px">
+              <span class="card-title red">{{entra.producto.nombre}}</span>
+            </div>
+            <div class="card-content">
+            	<p><b>Entrada número: </b> {{entra.id}}</p>
+              <p><b>Proveedor:</b> {{ entra.referencia.nombre }} </p>
+            	<p><b>Referencia:</b> {{ entra.referencia.razon_social }} </p>
+            	{% if entra.observacion == ""%}
+            		<p><b>Observacion: </b>Sin observacion</p>
+            	{% else %}
+            		<p><b>Observacion:</b> {{ entra.observacion }} </p>
+            	{% endif %}
+				      <p><b>Fecha de ingreso</b> {{ entra.fecha_ingreso }}</p>
+				      <p> <b>Cantidad:</b> {{ entra.cantidad }}</p>
+              <p><a  href="/media/codes/{{ entra.producto.codigobarras }}.svg" target="_blank"><img src="/media/codes/{{ entra.producto.codigobarras }}.svg"></a></p><br>
+            </div>
+            <div class="card-action">
+              <a  href="/entradas/">Lista de entradas</a>
+            </div>
+          </div>
+        </div>
+    </div>
+  {% else %}
+      <P>Debes estar utenticado para poder ver el contenido</P>
+      <a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Producto
+{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+  	   
+          <div class="col s12 m7">
+            <div class="card Large">
+              <div class="card-image">
+                <img src="/media/{{producto.imagen}}" height="250px">
+                <span class="card-title indigo darken-1">{{producto.nombre}}</span>
+              </div>
+              <div class="card-content">
+                {% if producto.descripcion == ""%}
+                  <p><b>Descripcion </b>Sin descripcion</p>
+                {% else %}
+                  <p><b>Observacion:</b> {{ producto.descripcion }} </p>
+                {% endif %}
+                
+                <p><b>Precio:</b> {{ producto.valor }}</p>
+                <p> <b>Cantidad disponible:</b> {{ producto.cantidad }}</p>
+                <p><b>dimensiones:</b> {{ producto.dimenciones }} </p>
+                <br>
+              	<p><a  href="/media/codes/{{ producto.codigobarras }}.svg" download="{{producto.codigobarras }}.svg" >
+                  <img src="/media/codes/{{ producto.codigobarras }}.svg"></a></p><br>
+              </div>
+              <div class="card-action">
+                <a  href="/producto/">Lista de productos</a>
+              </div>
+            </div>
+          </div>
+      
+    {% else %}
+      <P>Debes estar autenticado para poder ver el contenido</P>
+      <a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+    {% endif %}
+	
+	
+{% endblock %}	

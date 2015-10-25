@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	Lista de salidas
+{% endblock %}
+
+{% block content %}
+	<h3 align="center">Salidas </h3>
+	{% if user.is_authenticated %}
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_agregar_salida' %}"><i class="material-icons right">queue</i>Nuevo</a>
+	
+
+ 		<div >
+			{% if salida %}
+				<table class="highlight bordered striped centered">
+			        <thead>
+			          <tr>
+			              <th data-field="id">Tipo</th>
+			              <th data-field="name">Sede</th>
+			              <th data-field="price">Fecha</th>
+			              <th data-field="options">Producto</th>
+			              {% if user.is_staff%}
+			              	<th data-field="options">Opcion</th>
+			              {% else %}
+			              	<th data-field="options">Opciones</th>
+			              {% endif %}
+			          </tr> 
+			        </thead>
+			        <tbody>
+			        	{%for i in salida %}
+				        	<tr>
+				        		<td>{{i.tipo_salida}}</td>
+				        		<td>{{i.sede}}</td>
+				        		<td>{{i.fecha_salida}}</td>
+				        		<td>{{i.producto}}</td>
+				        		<td><a  class="waves-effect waves-light " href="/salida/{{i.id}}"><i class="material-icons ">visibility</i>Ver</a>
+				        		{% if  user.is_superuser %}
+				        			<a  class="waves-effect waves-light" href="/edit/salida/{{i.id}}"><i class="material-icons ">description</i>Editar</a>
+				        		{% endif %}
+				        		</td>
+				        				          	
+				        	</tr>
+				        {% endfor %}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5><b>No existen salidas disponibles</b></h5>
+			{% endif %}
+		</div>
+
+	{% else %}
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		
+	{% endif %}
+	<br>
+{% endblock %}

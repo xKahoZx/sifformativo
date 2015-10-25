@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title%}
+	Generar cotizacion
+{% endblock %}
+
+{% block content %}
+	
+	
+	<form action= "."method = "POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		
+		{% if agregado%}
+			<input type = "submit" value = "Enviar Correo"/>
+		{% endif %}
+		<input type = "submit" value = "Agregar"/>
+	</form>
+
+	{% if info_enviado %}
+		{% for p in lista %}
+			a
+		{% endfor %}		
+	{% endif%}
+
+	
+{% endblock %}

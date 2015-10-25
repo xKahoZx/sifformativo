@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+{% block title%}
+	Listar sedes
+
+{% endblock %}
+
+{% block content %}
+	<h3 align="center">Razon Social</h3>
+	{% if user.is_authenticated and user.is_superuser %}
+		<a class="waves-effect waves-light btn" href="{% url 'vista_agregar_refe' %}"><i class="material-icons right">queue</i>Nuevo</a>
+	
+ 		<div >
+			{% if refe %}
+				<table class="bordered striped centered highlight">
+			        <thead>
+			          <tr>
+			              <th data-field="id" >Nombre</th>			         
+			              {% if user.is_staff%}
+			              	<th data-field="options">Opcion</th>
+			              {% else %}
+			              	<th data-field="options">Opciones</th>
+			              {% endif %}
+			          </tr> 
+			        </thead>
+			        <tbody>
+			          {% for p in refe %}	
+				          <tr>
+				        		<td>{{p.ciudad}}</td>
+				        		{% if  user.is_superuser %}
+				        			<td><a class="mdl-navigation__link " href="/edit/refe/{{ p.id }}"><i class="mdl-	color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>		
+				        		{% endif %}          	
+				          </tr>
+			          {% endfor%}
+			        </tbody>
+			    </table>
+			{% else %}
+				<h5> No existen referencias </h5>
+			{% endif %}
+		</div>
+	
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede crear una entrada</p>
+		{% else %}
+			<P>Debes estar utenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+	<br>
+{% endblock %}

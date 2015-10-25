@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+	Salida
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    	<div class="row center" >
+            <div class="col s12 m7">
+              <div class="card Large">
+                <div class="card-image">
+                  <img src="/media/{{salida.producto.imagen}}" height="250px">
+                  <span class="card-title red">{{salida.producto.nombre}}</span>
+                </div>
+                <div class="card-content">
+                	<p><b>Salida número: </b> {{salida.id}}</p>
+                	<p><b>Tipo salida:</b> {{ salida.tipo_salida }} </p>
+                	{% if salida.descripcion == ""%}
+                		<p><b>Observacion: </b>Sin observacion</p>
+                	{% else %}
+                		<p><b>Observacion:</b> {{ salida.descripcion }} </p>
+                	{% endif %}
+    				<p><b>Fecha de ingreso</b> {{ salida.fecha_salida }}</p>
+    				<p> <b>Cantidad:</b> {{ salida.cantidad }}</p>
+    				<p><b>Sede :</b> {{salida.sede}}</p>
+                    {% if salida.tipo_salida == "Cliente" %}
+    				    <p><b>Numero contrato: </b>{{salida.numero_contrato}}</p>
+                    {% endif %}
+                    <p><a  href="/media/codes/{{ salida.producto.codigobarras }}.svg" target="_blank"><img src="/media/codes/{{ salida.producto.codigobarras }}.svg"></a></p><br>
+                </div>
+                <div class="card-action">
+    			   <a href= "{% url 'vista_salida' %}">Listar salidas</a>
+                </div>
+              </div>
+            </div>
+        </div>
+    {% else %}
+      <P>Debes estar utenticado para poder ver el contenido</P>
+      <a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+    {% endif %}
+	
+{% endblock %}

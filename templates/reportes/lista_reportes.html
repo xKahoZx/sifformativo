@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+	Lista de reportes
+{% endblock %}
+
+{% block content %}
+	<br>
+	<h3>Menu Reportes</h3>
+	{% if user.is_authenticated and user.is_superuser %}	
+
+		<li><a href="{% url 'vista_reporte_entrada' %}">Reporte por entrada</a></li>
+		<li><a href="{% url 'vista_reporte_salida' %}">Reporte por salida</a></li>
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede ver el contenido</p>
+		{% else %}
+			<P>Debes estar autenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+
+	
+{% endblock %}

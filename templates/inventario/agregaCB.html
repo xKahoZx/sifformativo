@@ -1,0 +1,14 @@
+{% block title %}
+    Agregar Codigo de Barras
+{% endblock %}
+
+{% block content %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn waves-effect waves-light" type="submit" >Guardar
+			<i class="material-icons right">note_add</i>
+		</button>
+		
+    </form>
+{% endblock %}

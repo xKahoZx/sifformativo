@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Agregar Nueva Salida
+{% endblock %}
+
+{% block content %}
+	<h5 align="center">Nueva Salida</h5>
+	{% if user.is_authenticated %}
+	<form action="." method="POST">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button class="btn waves-effect waves-light" type="submit" >Guardar
+			<i class="material-icons right">note_add</i>
+		</button>
+		
+		<button class="btn waves-effect waves-light" type="reset" >Limpiar
+			<i class="material-icons right">loop</i>
+		</button>
+
+	</form>
+	{{men}}
+	{% else %}
+		<P>Debes estar utenticado para poder ver el contenido</P>
+		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		
+	{% endif %}
+
+{% endblock %}
+

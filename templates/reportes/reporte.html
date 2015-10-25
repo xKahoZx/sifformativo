@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}
+	{% if ban = entrada %}
+		Reporte por entrada
+	{% else %}
+		Reporte por salida
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<style type="text/css">
+	.cursor{
+		 cursor:pointer;
+	}
+	</style>
+	<h5>Reporte</h5>
+	{% if user.is_authenticated and user.is_superuser %}	
+		<form action="." method="POST" enctype = "multiplar/form-data">
+			{% csrf_token %}
+			{% for field in form %}
+				{% if field.name  = "fecha_inicio" %}
+					<label>Fecha inicio</label>
+					 <input id="id_fecha_inicio" type="date" name = "fecha_inicio" class="datepicker cursor"  > 
+				{% endif %}
+				{% if field.name  = "fecha_fin" %}
+					<label>Fecha fin</label>
+					 <input id="id_fecha_fin" type="date" name = "fecha_fin" class="datepicker cursor" > 
+				{% endif %}
+			{% endfor %}
+			{{men}}
+			<br>
+			<br>
+			<button class="btn waves-effect waves-light" type="submit" >Generar
+					<i class="material-icons right">note_add</i>
+				</button>
+				<button class="btn waves-effect waves-light" type="reset" >Limpiar
+					<i class="material-icons right">loop</i>
+				</button>
+
+		</form>
+		<br>		
+		{% if repor %}
+			
+			
+				{% if ban = "entrada" %}
+					<h5>Reporte de Entradas</h5>
+				{% else %}
+					<h5>Reporte de Salidas</h5>
+				{% endif %}
+				<table class= "bordered striped highlight centered">
+					<thead>
+						<tr>
+							{% if ban = entrada %}
+								<th>Numero entrada</th>
+							{% else %}
+								<th>Numero salida</th>
+							{% endif %}
+							<th>Fecha</th>
+							<th>Producto</th>
+							<th>Cantidad</th>
+							{% if ban = "entrada" %}
+								<th>Referencia</th>
+							{% else %}
+								<th>Tipo salida</th>
+							{% endif %}
+						</tr>
+					</thead>
+					{% for p in repor %}
+						<tbody>
+							<td>{{p.id}}</td>
+							{% if ban = "entrada" %}
+								<td>{{ p.fecha_ingreso }}</td>
+							{% else %}
+								<td>{{ p.fecha_salida }}</td>
+							{% endif %}
+							<td>{{ p.producto }}</td>
+							<td>{{ p.cantidad }}</td>
+							{% if ban = "entrada" %}
+								<td>{{ p.referencia.razon_social.ciudad }}</td>
+							{% else %}
+								<td>{{ p.tipo_salida }}</td>
+							{% endif %}
+							
+						</tbody>
+					{% endfor %}
+					
+				</table>
+			<br>
+		{% else %}
+			<p>No hay reporte disponible</p>
+		{% endif %}
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede ver el contenido</p>
+		{% else %}
+			<P>Debes estar autenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+{% endblock %}

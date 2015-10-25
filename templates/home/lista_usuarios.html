@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Usuarios
+{% endblock %}
+
+{% block content %}
+	
+	<h3>Menu Usuarios</h3>
+	{% if user.is_authenticated  and user.is_superuser = True %}
+		<li><a href="{% url 'vista_usuarios_admin' %}" >Listar administradores activos</a></li>
+		<li><a href="{% url 'vista_usuarios_inac_admin' %}" >Listar administradores inactivos</a></li>
+		<li><a href="{% url 'vista_usuarios_oper' %}" >Listar operadores activos</a></li>
+		<li><a href="{% url 'vista_usuarios_inac_oper' %}">Listar operadores inactivos</a></li>
+		<li><a href="{% url 'vista_registro' %}">Nuevo usuario</a></li>
+	{% else %}
+		{% if user.is_authenticated and user.is_superuser = False %}
+			<p>Solo una cuenta administrador puede ver el contenido</p>
+		{% else %}
+			<P>Debes estar autenticado para poder ver el contenido</P>
+			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+		{% endif %}
+	{% endif %}
+{% endblock %}
