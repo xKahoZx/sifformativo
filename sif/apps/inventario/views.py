@@ -6,6 +6,7 @@ from datetime import date
 from sif.apps.inventario.forms import *
 from sif.apps.inventario.models import *
 from django.http import HttpResponseRedirect
+from barcode.writer import ImageWriter
 import barcode
 
 
@@ -346,7 +347,7 @@ def creaCodigo(request):
 	if request.method == "POST":
 		informacion = "pasa post"
 		EAN = barcode.get_barcode_class('ean13')
-		segs = datetime.datetime.now().second if (datetime.datetime.now().second < 10) else datetime.datetime.now().second/10
+		
 		#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
 		stamp = str((int(time.time())*100)+(segs) + 1000000000000)
 		ean = EAN(stamp)
@@ -362,20 +363,17 @@ def creaCodigo(request):
 	ctx = {'form': formulario,'info':informacion}
 	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
 
+
 def creaCodigoAux():
-	EAN = barcode.get_barcode_class('ean13')
-	#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
-	segs = datetime.datetime.now().second if (datetime.datetime.now().second < 10) else datetime.datetime.now().second/10
-	stamp = str((int(time.time())*100)+(segs) + 1000000000000)
-	ean = EAN(stamp)
-	ean.save("sif/media/codes/"+stamp)
+	
+	stamp = str(long( time.time() * 1000 ))
+	ean = barcode.get_barcode('ean', stamp, writer=ImageWriter())
+	filename = ean.save("sif/media/codes/" + stamp)
 	crea = CodigoBarras(codigo=stamp)
 	crea.save()
-	print crea , "asdasfgggggggasdas"
 	cofre = CodigoBarras.objects.get(id=crea.id)
 	return cofre
-
-
+	
 '''
   La vista ver_unico: Muestra un codigo de barras y su imagen en base a su id 
 '''
