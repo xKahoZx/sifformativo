@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect
 from barcode.writer import ImageWriter
 import barcode
 
-
 #Sedes
 def add_sede_view(request):
 	info = "iniciando"
@@ -348,7 +347,6 @@ def creaCodigo(request):
 		informacion = "pasa post"
 		EAN = barcode.get_barcode_class('ean13')
 		
-		#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
 		stamp = str((int(time.time())*100)+(segs) + 1000000000000)
 		ean = EAN(stamp)
 		ean.save("sif/media/codes/"+stamp)
@@ -366,9 +364,9 @@ def creaCodigo(request):
 
 def creaCodigoAux():
 	
-	stamp = str(long( time.time() * 1000 ))
+	stamp = str(int(time.time() * 1000))[:12]
 	ean = barcode.get_barcode('ean', stamp, writer=ImageWriter())
-	filename = ean.save("sif/media/codes/" + stamp)
+	ean.save("sif/media/codes/" + stamp)
 	crea = CodigoBarras(codigo=stamp)
 	crea.save()
 	cofre = CodigoBarras.objects.get(id=crea.id)

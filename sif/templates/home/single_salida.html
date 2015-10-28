@@ -26,7 +26,7 @@
                     {% if salida.tipo_salida == "Cliente" %}
     				    <p><b>Numero contrato: </b>{{salida.numero_contrato}}</p>
                     {% endif %}
-                    <p><a  href="/media/codes/{{ salida.producto.codigobarras }}.svg" target="_blank"><img src="/media/codes/{{ salida.producto.codigobarras }}.svg"></a></p><br>
+                    <p><a  href="/media/codes/{{ salida.producto.codigobarras }}.png" target="_blank"><img src="/media/codes/{{ salida.producto.codigobarras }}.png"></a></p><br>
                 </div>
                 <div class="card-action">
     			   <a href= "{% url 'vista_salida' %}">Listar salidas</a>

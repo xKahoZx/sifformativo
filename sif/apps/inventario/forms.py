@@ -17,6 +17,7 @@ class add_refe_form(forms.ModelForm):
 class add_entrada_form(forms.ModelForm):
 	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
 	def clean_codigobarras(self):
+		self.cleaned_data['codigobarras'] = str(int(self.cleaned_data['codigobarras'])/10)
 		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
 	class Meta:
 		model 	= Entrada
@@ -35,6 +36,7 @@ class edit_entrada_form(forms.ModelForm):
 class add_salida_form(forms.ModelForm):
 	codigobarras = forms.CharField(widget=forms.TextInput(attrs={'autofocus':''}))
 	def clean_codigobarras(self):
+		self.cleaned_data['codigobarras'] = str(int(self.cleaned_data['codigobarras'])/10)
 		return CodigoBarras.objects.get(codigo=self.cleaned_data['codigobarras'])
 	def clean_numero_contrato(self):
 		tipo = self.cleaned_data['tipo_salida']
