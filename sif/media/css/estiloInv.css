@@ -4,3 +4,17 @@
 label[for="id_numero_contrato"]{
 	display: none;
 }
+.alineacion_card{
+	text-align: left;
+	padding-left: 2%;
+}
+.color_card{
+	background-color: #02528F!important;
+}
+.parallax-container {
+	height: 300px;
+}
+li{
+	text-align: left;
+	padding-left: 3%;
+}	
