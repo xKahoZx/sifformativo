@@ -346,7 +346,7 @@ def creaCodigo(request):
 	if request.method == "POST":
 		informacion = "pasa post"
 		EAN = barcode.get_barcode_class('ean13')
-		segs = datetime.datetime.now().second if (datetime.datetime.now().second < 10) else datetime.datetime.now().second/10
+		
 		#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
 		stamp = str((int(time.time())*100)+(segs) + 1000000000000)
 		ean = EAN(stamp)
@@ -365,8 +365,8 @@ def creaCodigo(request):
 def creaCodigoAux():
 	EAN = barcode.get_barcode_class('ean13')
 	#En esta linea creo un ID0 basado en el tiempo de Unix a prueba de Hash Collision
-	segs = datetime.datetime.now().second if (datetime.datetime.now().second < 10) else datetime.datetime.now().second/10
-	stamp = str((int(time.time())*100)+(segs) + 1000000000000)
+	stamp = str(long( time.time() * 1000 ))
+	stamp2 = stamp
 	ean = EAN(stamp)
 	ean.save("sif/media/codes/"+stamp)
 	crea = CodigoBarras(codigo=stamp)
