@@ -224,7 +224,7 @@ def logout_view(request):
 
 #Generar cootizacion
 
-lista = []
+list = []
 
 def cotizacion_view(request):
 	# o = falso 1 = verdadero
@@ -241,7 +241,8 @@ def cotizacion_view(request):
 				info_enviado = 1
 
 			if info_enviado == 0:
-
+				for p in list:
+					list.remove(p)		
 				agregado = True
 				info_enviado = 1
 				nombre		= formulario.cleaned_data['nombre']
@@ -257,19 +258,22 @@ def cotizacion_view(request):
 				producto	= formulario2.cleaned_data['producto']
 				cantidad	= formulario2.cleaned_data['cantidad']
 				observacion	= formulario2.cleaned_data['observacion']
-				i = producto.id
-				detalle.append(producto.nombre)
-				detalle.append(producto.cantidad)
-				detalle.append(producto.valor)
-				detalle.append(producto.valor * producto.cantidad)
-				lista.append(detalle)
 				
-				detalle=[]
+				total = producto.valor * cantidad 
+				producto = producto.nombre
+
+				detalle.append(producto)
+				detalle.append(cantidad)
+				detalle.append(total)
+				detalle.append(observacion)
+				list.append(detalle)
+				detalle =[]
+
 				agregado = True	
 				formulario = agregar_cotizacion_forms()
-				ctx = {'form':formulario, 'agregado':agregado, "info_enviado":info_enviado,'lista': lista}
+				ctx = {'form':formulario, 'agregado':agregado, "info_enviado":info_enviado,'lista': list}
 				return render_to_response('home/cotizacion.html', ctx, context_instance = RequestContext(request))
 	else:	
 		formulario = cotizacion_form()
-	ctx = {'form': formulario,'lista': lista,"info_enviado":info_enviado}
+	ctx = {'form': formulario,"info_enviado":info_enviado}
 	return render_to_response('home/cotizacion.html',ctx,context_instance = RequestContext(request))
