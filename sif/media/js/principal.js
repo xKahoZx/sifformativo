@@ -8,6 +8,11 @@ $(function(){
 			$("label[for='id_numero_contrato']").hide();
 		}
 	});
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> refs/remotes/origin/esteban
 	$("#id_codigobarras").scannerDetection({stopPropagation:true,preventDefault:false},function(datos){
 		$("#id_cantidad").focus();
 	});
