@@ -243,15 +243,15 @@ def cotizacion_view(request):
 			if info_enviado == 0:
 				for p in list:
 					list.remove(p)		
-				agregado = True
+				
 				info_enviado = 1
 				nombre		= formulario.cleaned_data['nombre']
 				apellido	= formulario.cleaned_data['apellido']
 				direccion	= formulario.cleaned_data['direccion']
 				telefono	= formulario.cleaned_data['telefono']
 				email 		= formulario.cleaned_data['email']
-				formulario = agregar_cotizacion_forms()
-				ctx = {'form':formulario, 'agregado':agregado, "info_enviado":info_enviado}
+				formulario 	= agregar_cotizacion_forms()
+				ctx = {'form':formulario,  "info_enviado":info_enviado}
 				return render_to_response('home/cotizacion.html', ctx, context_instance = RequestContext(request))
 			else:
 				
