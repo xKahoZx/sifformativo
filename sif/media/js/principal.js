@@ -8,7 +8,9 @@ $(function(){
 			$("label[for='id_numero_contrato']").hide();
 		}
 	});
-	$("#id_codigobarras").scannerDetection({stopPropagation:true,preventDefault:true},function(datos){
+	
+	
+	$("#id_codigobarras").scannerDetection({stopPropagation:true,preventDefault:false},function(datos){
 		$("#id_cantidad").focus();
 	});
 	$('.datepicker').pickadate({
