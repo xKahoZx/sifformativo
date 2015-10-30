@@ -29,8 +29,9 @@ def reporte_view_entrada(request):
 				men = "La fecha final no puede ser menor a la fecha inicial"
 				ctx = {'form': formulario, 'men': men}
 				return render_to_response('reportes/reporte.html',ctx , context_instance=RequestContext(request))
-			lista_reporte = Entrada.objects.filter(fecha_ingreso__range=(str(fecha_inicio), str(fecha_fin)))		
-			ctx = {'repor': lista_reporte,'form': formulario, 'ban': bandera}
+			lista_reporte = Entrada.objects.filter(fecha_ingreso__range=(str(fecha_inicio), str(fecha_fin)))
+			men = "No hay reporte disponible"			
+			ctx = {'repor': lista_reporte,'form': formulario, 'ban': bandera, 'men':men}
 			return render_to_response('reportes/reporte.html',ctx, context_instance = RequestContext(request))
 	ctx = {'form': formulario}
 	return render_to_response('reportes/reporte.html',ctx , context_instance=RequestContext(request))
@@ -54,8 +55,9 @@ def reporte_view_salida(request):
 				men = "La fecha final no puede ser menor a la fecha inicial"
 				ctx = {'form': formulario, 'men': men}
 				return render_to_response('reportes/reporte.html',ctx , context_instance=RequestContext(request))
-			lista_reporte = Salida.objects.filter(fecha_salida__range=(fecha_inicio, fecha_fin))		
-			ctx = {'repor': lista_reporte,'form': formulario ,'ban': bandera}
+			lista_reporte = Salida.objects.filter(fecha_salida__range=(fecha_inicio, fecha_fin))	
+			men = "No hay reporte disponible"	
+			ctx = {'repor': lista_reporte,'form': formulario ,'ban': bandera,'men':men}
 			return render_to_response('reportes/reporte.html',ctx, context_instance = RequestContext(request))
-	ctx = {'form': formulario}
+	ctx = {'form': formulario,'ban':bandera}
 	return render_to_response('reportes/reporte.html',ctx , context_instance=RequestContext(request))

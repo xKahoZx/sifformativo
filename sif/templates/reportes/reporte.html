@@ -27,7 +27,11 @@
 					 <input id="id_fecha_fin" type="date" name = "fecha_fin" class="datepicker cursor" > 
 				{% endif %}
 			{% endfor %}
-			{{men}}
+			{% if ban = "entrada" or ban = "salida"%}
+				{{men}}
+			{% else %}
+				{{men}}
+			{% endif %}
 			<br>
 			<br>
 			<button class="btn waves-effect waves-light" type="submit" >Generar
@@ -40,8 +44,6 @@
 		</form>
 		<br>		
 		{% if repor %}
-			
-			
 				{% if ban = "entrada" %}
 					<h5>Reporte de Entradas</h5>
 				{% else %}
@@ -86,8 +88,6 @@
 					
 				</table>
 			<br>
-		{% else %}
-			<p>No hay reporte disponible</p>
 		{% endif %}
 	{% else %}
 		{% if user.is_authenticated and user.is_superuser = False %}

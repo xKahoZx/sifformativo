@@ -9,7 +9,7 @@
  		<a class="waves-effect waves-light btn" href="{% url 'vista_agregar_producto' %}"><i class="material-icons right">queue</i>Nuevo</a>
  	{% endif %}
 	{% if user.is_authenticated %}
- 	<div class= "row">
+
  		<div >
 	 		{% if Producto %} 			
 	 			<table class = "striped bordered highlight centered ">
@@ -45,12 +45,12 @@
 	 			<h3> No Exiten productos </h3>	
 		 	{% endif %}
  		</div>
- 	</div>
+ 	
  	{% else %}
 		<P>Debes estar utenticado para poder ver el contenido</P>
 		<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
 	
 	{% endif %}
- 			
+ 	<br>		
  	
 {% endblock %} 		

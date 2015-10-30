@@ -71,9 +71,11 @@ class cotizacion_form(forms.Form):
 	apellido	= forms.CharField(widget = forms.TextInput())
 	direccion	= forms.CharField(widget = forms.TextInput(), required = False)
 	telefono	= forms.CharField(widget = forms.TextInput())
-	sede		= forms.ModelChoiceField(queryset = Sede.objects.filter())  
+	email		= forms.EmailField(widget = forms.TextInput()) 
+	#sede		= forms.ModelChoiceField(queryset = Sede.objects.filter())  
+
+class agregar_cotizacion_forms(forms.Form):
+	
 	producto	= forms.ModelChoiceField(queryset = Producto.objects.filter()) 
 	cantidad	= forms.IntegerField(widget = forms.TextInput(), min_value=0 ) 
-	email		= forms.EmailField(widget = forms.TextInput()) 
 	observacion	= forms.CharField(widget = forms.Textarea(), required = False)
-
