@@ -14,7 +14,7 @@
 		</form>
 	{% endif %}
 
-	{% if agregado = 1 %}
+	{% if info_enviado = 1 %}
 		<form action= "."method = "POST">
 			{% csrf_token %}
 			{{ form.as_p }}		
