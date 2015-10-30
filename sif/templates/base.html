@@ -57,7 +57,7 @@
      		</nav>
 	      	<ul id="nav-mobile" class="side-nav fixed indigo darken-1 z-depth-2" style="width: 240px;">
 	        	        
-		            <li ><a href="{% url 'vista_index' %}">Inicio</a></li>
+		            
 					{% if user.is_staff or user.is_superuser %}
 						<li ><a href="{% url 'vista_entrada' %}"> Entradas </a></li>		
 						<li ><a href="{% url 'vista_salida' %}"> Salidas </a></li>
