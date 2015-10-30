@@ -1,1 +1,1 @@
-web: gunicorn sifformativo.wsgi --log-file -
+web: gunicorn sif-formativo.wsgi --log-file -
