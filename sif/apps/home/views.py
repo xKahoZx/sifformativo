@@ -224,50 +224,52 @@ def logout_view(request):
 
 #Generar cootizacion
 
+lista = []
+
 def cotizacion_view(request):
-	info_enviado = False 
-	nombre		= ""
-	apellido	= ""
-	direccion	= ""
-	telefono	= ""
-	sede		= ""
-	cantidad	= ""
-	producto	= ""
-	email		= ""
-	observacion	= ""
-
-	lista = []
+	# o = falso 1 = verdadero
+	info_enviado = 0
+	
 	detalle =[]
-
-
-	agregado = False
-
+	
 	if request.method == "POST":
 		formulario = cotizacion_form(request.POST)
-		if formulario.is_valid():
-			agregado = True
-			info_enviado = True
-			nombre		= formulario.cleaned_data['nombre']
-			apellido	= formulario.cleaned_data['apellido']
-			direccion	= formulario.cleaned_data['direccion']
-			telefono	= formulario.cleaned_data['telefono']
-			sede		= formulario.cleaned_data['sede']
-			producto	= formulario.cleaned_data['producto']
-			cantidad	= formulario.cleaned_data['cantidad']
-			email 		= formulario.cleaned_data['email']
-			observacion	= formulario.cleaned_data['observacion']
-			
-			i = producto.id
+		formulario2 = agregar_cotizacion_forms(request.POST)
+		if formulario.is_valid() or formulario2.is_valid():
 
-			detalle.append(producto.nombre)
-			detalle.append(producto.cantidad)
-			detalle.append(producto.valor)
+			if formulario2.is_valid():
+				info_enviado = 1
 
-			detalle.append(producto.valor * producto.cantidad)
+			if info_enviado == 0:
 
-			lista.append(detalle)
-			detalle=[]
+				agregado = True
+				info_enviado = 1
+				nombre		= formulario.cleaned_data['nombre']
+				apellido	= formulario.cleaned_data['apellido']
+				direccion	= formulario.cleaned_data['direccion']
+				telefono	= formulario.cleaned_data['telefono']
+				email 		= formulario.cleaned_data['email']
+				formulario = agregar_cotizacion_forms()
+				ctx = {'form':formulario, 'agregado':agregado, "info_enviado":info_enviado}
+				return render_to_response('home/cotizacion.html', ctx, context_instance = RequestContext(request))
+			else:
+				
+				producto	= formulario2.cleaned_data['producto']
+				cantidad	= formulario2.cleaned_data['cantidad']
+				observacion	= formulario2.cleaned_data['observacion']
+				i = producto.id
+				detalle.append(producto.nombre)
+				detalle.append(producto.cantidad)
+				detalle.append(producto.valor)
+				detalle.append(producto.valor * producto.cantidad)
+				lista.append(detalle)
+				
+				detalle=[]
+				agregado = True	
+				formulario = agregar_cotizacion_forms()
+				ctx = {'form':formulario, 'agregado':agregado, "info_enviado":info_enviado,'lista': lista}
+				return render_to_response('home/cotizacion.html', ctx, context_instance = RequestContext(request))
 	else:	
 		formulario = cotizacion_form()
-	ctx = {'form': formulario,'lista': lista,"info_enviado":info_enviado,'agregado': agregado}
+	ctx = {'form': formulario,'lista': lista,"info_enviado":info_enviado}
 	return render_to_response('home/cotizacion.html',ctx,context_instance = RequestContext(request))

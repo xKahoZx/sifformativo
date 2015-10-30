@@ -7,18 +7,18 @@
 {% block content%}
 	<h5>Registro de usuario</h5>
 	{% if user.is_authenticated  and user.is_superuser = True %}
-		<div class="row">
+	
 			
-			<form action="." method="POST">
-				{% csrf_token %}
-				{{ form_oper.as_p}}
-				{{ form.as_p}}
-				
-				<button class="btn waves-effect waves-light red darken-2" type="submit" >Registrar
-				<i class="material-icons right">note_add</i>
+		<form action="." method="POST">
+			{% csrf_token %}
+			{{ form_oper.as_p}}
+			{{ form.as_p}}
+			
+			<button class="btn waves-effect waves-light red darken-2" type="submit" >Registrar
+			<i class="material-icons right">note_add</i>
 			</button>
-			</form>
-		</div>
+		</form>
+		
 	{% else %}
 		{% if user.is_authenticated and user.is_superuser = False %}
 			<p>Solo una cuenta administrador puede crear un nuevo usuario</p>
@@ -27,4 +27,5 @@
 			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
 		{% endif %}
 	{% endif %}
+	<br>
 {% endblock %}
