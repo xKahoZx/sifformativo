@@ -8,11 +8,7 @@ $(function(){
 			$("label[for='id_numero_contrato']").hide();
 		}
 	});
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> refs/remotes/origin/esteban
+
 	$("#id_codigobarras").scannerDetection({stopPropagation:true,preventDefault:false},function(datos){
 		$("#id_cantidad").focus();
 	});
@@ -29,4 +25,5 @@ $(function(){
 		selectMonths: true, // Creates a dropdown to control month
 		selectYears: 15 // Creates a dropdown of 15 years to control year
 	});
+	$('select').material_select();
 });
