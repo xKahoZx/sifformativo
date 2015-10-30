@@ -42,8 +42,12 @@ def list_usuarios_view(request):
 
 
 def single_usuario_view(request,id_user):
-	user = Usuario.objects.get(id =id_user)
-	ctx = {'user':user}
+	if request.user.is_authenticated():
+		usuarito = Usuario.objects.get(id = id_user)
+		ctx = {'usuarito':usuarito}	
+	else:
+		ctx = {}
+	
 	return render_to_response('home/single_usuario.html',ctx,context_instance= RequestContext(request))
 	
 def usuarios_admin_activos_view(request):
