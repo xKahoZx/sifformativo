@@ -21,11 +21,31 @@
 			<input type = "submit" value = "Agregar"/>			
 		</form>
 	{% endif %}
+	{% if lista %}
+		<table>
+	        <thead>
+	          <tr>
+	              <th data-field="producto">Producto</th>
+	              <th data-field="cantidad">Cantidad</th>
+	              <th data-field="total">Total</th>
+	              <th data-field="observacion">Observacion</th>
+	          </tr>
+	        </thead>
 
-	{%if lista %}
-		{%for p in lista%}
-			<p>{{p}}</p>
-		{%endfor%}
+	        <tbody>
+	        	{% for producto,cantidad,total,des in lista %}
+	        		<tr>
+						<td>{{ producto }}</td>
+						<td>{{ cantidad }}</td>
+						<td>{{ total }}</td>
+						<td>{{ des }}</td>
+					</tr>
+				{% endfor %}
+	        </tbody>
+	    </table>
+            
+	
+		
 	{% endif %}
 
 

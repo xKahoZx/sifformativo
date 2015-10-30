@@ -224,14 +224,14 @@ def logout_view(request):
 
 #Generar cootizacion
 
-list = []
+
 
 def cotizacion_view(request):
 	# o = falso 1 = verdadero
 	info_enviado = 0
 	
 	detalle =[]
-	
+	list = []
 	if request.method == "POST":
 		formulario = cotizacion_form(request.POST)
 		formulario2 = agregar_cotizacion_forms(request.POST)
