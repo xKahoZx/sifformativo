@@ -1,1 +1,1 @@
-gunicorn app.wsgi:application -b "0.0.0.0:$PORT" -w 2
+web: gunicorn hellodjango.wsgi --log-file -
