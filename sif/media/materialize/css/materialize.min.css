@@ -2047,7 +2047,8 @@ i {
   i.tiny {
     font-size: 1rem; }
   i.small {
-    font-size: 2rem; }
+    font-size: 2rem;
+    }
   i.medium {
     font-size: 4rem; }
   i.large {
@@ -2091,7 +2092,7 @@ img.responsive-img, video.responsive-video {
 .parallax-container {
   position: relative;
   overflow: hidden;
-  height: 500px; }
+  height: 350px; }
 
 .parallax {
   position: absolute;
@@ -8435,7 +8436,7 @@ a.button-collapse.top-nav {
   .promo i {
     margin: 40px 0;
     color: #000;
-    font-size: 7rem;
+    /* font-size: 7rem; */
     display: block;
     opacity: 0.9;
     }
