@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from sif.apps.home.forms import *
 from django.contrib.auth import login, logout , authenticate
-
+from django.core.mail import EmailMultiAlternatives
 
 
 def index_view(request):
@@ -228,14 +228,13 @@ def logout_view(request):
 
 #Generar cootizacion
 
-
+list = []
 
 def cotizacion_view(request):
 	# o = falso 1 = verdadero
 	info_enviado = 0
 	
 	detalle =[]
-	list = []
 	if request.method == "POST":
 		formulario = cotizacion_form(request.POST)
 		formulario2 = agregar_cotizacion_forms(request.POST)
@@ -262,7 +261,7 @@ def cotizacion_view(request):
 				producto	= formulario2.cleaned_data['producto']
 				cantidad	= formulario2.cleaned_data['cantidad']
 				observacion	= formulario2.cleaned_data['observacion']
-				
+
 				total = producto.valor * cantidad 
 				producto = producto.nombre
 
@@ -272,6 +271,14 @@ def cotizacion_view(request):
 				detalle.append(observacion)
 				list.append(detalle)
 				detalle =[]
+				subject = 'Prueba'
+				text_content = 'Blablalbla'
+				html_content = '<h2>Mensaje</h2><p>Linea 1<br>Linea 2</p>'
+				from_email = '"origen" <yycampos@misena.edu.co>'
+				to = 'datutalcha3@misena.edu.co'
+				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				msg.attach_alternative(html_content, "text/html")
+				msg.send()
 
 				agregado = True	
 				formulario = agregar_cotizacion_forms()
@@ -281,3 +288,7 @@ def cotizacion_view(request):
 		formulario = cotizacion_form()
 	ctx = {'form': formulario,"info_enviado":info_enviado}
 	return render_to_response('home/cotizacion.html',ctx,context_instance = RequestContext(request))
+
+
+
+	
