@@ -16,7 +16,7 @@ class Usuario(models.Model):
 	telefono 		= models.CharField(max_length=20)
 	sexo 			= models.CharField(max_length=15, choices = generos, default = "Masculino")
 	user 			= models.OneToOneField(User)
-
+	email 			= models.EmailField()
 
 	def __unicode__(self):
 		return self.nombre
