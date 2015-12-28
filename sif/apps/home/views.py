@@ -174,7 +174,7 @@ def register_view(request):
 		form = RegisterForm(request.POST)
 		form_oper = add_usuario_form(request.POST)
 		if form.is_valid() and form_oper.is_valid():
-			email 	= form.cleaned_data['email']
+			email 	= form_oper.cleaned_data['email']
 			password_one = form.cleaned_data['password_one']
 			password_two = form.cleaned_data['password_two']
 			nombre = form_oper.cleaned_data['nombre']
