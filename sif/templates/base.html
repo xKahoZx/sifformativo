@@ -31,15 +31,15 @@
 	         			<ul id="nav-mobile" class="brand-logo center">
 	         				{% if user.is_superuser %}
 	         					{% if user.usuario.sexo = "Femenino"%}
-	         						<a>Administradora {{user.first_name}} {{user.last_name}}</a>
+	         						<a>Administradora</a>
 	         					{% else %}
-	         						<a>Administrador {{user.first_name}} {{user.last_name}}</a>
+	         						<a>Administrador</a>
 	         					{% endif %}
 	         				{% else %}
 	         					{% if user.usuario.sexo = "Femenino"%}
-	         						<a>Operadora {{user.first_name}} {{user.last_name}}</a>
+	         						<a>Operadora</a>
 	         					{% else %}
-	         						<a>Operador {{user.first_name}} {{user.last_name}}</a>
+	         						<a>Operador</a>
 	         					{% endif %}
 	         				{% endif %}
 	         			{% endif %}
