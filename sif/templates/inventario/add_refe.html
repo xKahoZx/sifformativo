@@ -1,11 +1,11 @@
-{% extends 'base.html '%}
+{% extends 'base.html'%}
 
 {% block title %}
-	Agregar una Sede 
+	Agregar una Razon Social 
 {% endblock %}
 
 {% block content %}
-	<h5 align="center">Nueva Sede</h5>
+	<h5 align="center">Nueva Razon Social</h5>
 	{% if user.is_authenticated  and user.is_superuser = True %}
 	<form action="." method="POST" enctype = "multiplar/form-data">
 		{% csrf_token %}
@@ -23,7 +23,7 @@
 	{{ info }}
 	{% else %}
 		{% if user.is_authenticated and user.is_superuser = False %}
-			<p>Solo una cuenta administrador puede crear una sede</p>
+			<p>Solo una cuenta administrador puede crear una razon social</p>
 		{% else %}
 			<P>Debes estar utenticado para poder ver el contenido</P>
 			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
