@@ -132,7 +132,7 @@ INSTALLED_APPS = (
     'sif.apps.inventario',
     'sif.apps.web_services.ws_producto',
     'rest_framework',
-    'gunicorn',    
+    #'gunicorn',    
 
 )
 
