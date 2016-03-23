@@ -21,10 +21,10 @@
 				              <th data-field="cant">Telefono</th>
 				              <th data-field="tipo_user">Tipo Usuario</th>
 				              {% if user.is_staff%}
-			              	<th data-field="options">Opcion</th>
-			              {% else %}
-			              	<th data-field="options">Opciones</th>
-			              {% endif %}
+			              	    <th data-field="options">Opcion</th>
+			              	  {% else %}
+			              	    <th data-field="options">Opciones</th>
+			                  {% endif %}
 				          </tr> 
 				        </thead>
 				        <tbody>
@@ -39,7 +39,7 @@
 					        		{% else %}
 					        			<td>Operador</td>
 					        		{% endif %}
-					        		<td ><a class="mdl-navigation__link " href="/usuario/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
+					        		<td ><a class="mdl-navigation__link rol" href="/usuario/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
 							        <a class="mdl-navigation__link " href="/edit/user/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons " role="presentation">description</i>Editar</a>
 							        {% if i.user.is_active = True %}
 							        	<a href="/inh_user/{{i.id}}">Inhabilitar</a>

@@ -28,22 +28,22 @@
 		         				<a class="page-title">Bienvenido </a>
 		         			{% endif %}
 		         		
-	         			<ul id="nav-mobile" class="brand-logo center">
-	         				{% if user.is_superuser %}
-	         					{% if user.usuario.sexo = "Femenino"%}
-	         						<a>Administradora</a>
+	         				<ul id="nav-mobile" class="brand-logo center ">
+	         					{% if user.is_superuser %}
+	         						{% if user.usuario.sexo = "Femenino"%}
+	         							<a class="rol">Administradora</a>
+	         						{% else %}
+	         							<a class="rol">Administrador</a>
+	         						{% endif %}
 	         					{% else %}
-	         						<a>Administrador</a>
+	         						{% if user.usuario.sexo = "Femenino"%}
+	         							<a class="rol">Operadora</a>
+	         						{% else %}
+	         							<a class="rol">Operador</a>
+	         						{% endif %}
 	         					{% endif %}
-	         				{% else %}
-	         					{% if user.usuario.sexo = "Femenino"%}
-	         						<a>Operadora</a>
-	         					{% else %}
-	         						<a>Operador</a>
-	         					{% endif %}
-	         				{% endif %}
+	         				</ul>
 	         			{% endif %}
-	         			</ul>
 
 		         		<ul id="nav-mobile" class="right hide-on-med-and-down">
 		        			{% if user.is_authenticated %}

@@ -33,10 +33,12 @@
 				          		<td>{{ p.codigobarras }}</td>
 				          		<td>{{p.valor}}</td>
 				          		<td>{{p.cantidad}}</td>
-				          		<td ><a class="mdl-navigation__link " href="/producto/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
-				          		{% if  user.is_superuser %}
-				          			<a class="mdl-navigation__link " href="/edit/producto/{{p.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>
-				          		{% endif %}
+				          		<td>
+				        			<a href="/producto/{{p.id}}"><i class="material-icons enlaces">visibility</i>Ver</a>
+					        		{% if  user.is_superuser %}
+							       		 <a href="/edit/producto/{{ p.id }}"><i class="material-icons enlaces">description</i>Editar</a>
+							        {% endif %}	
+						        </td>
 				          	</tr>
 				        </tbody>
 			        {% endfor %}

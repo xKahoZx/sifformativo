@@ -32,10 +32,12 @@
 				        		<td>{{i.fecha_ingreso}}</td>
 				        		<td>{{i.producto}}</td>
 				        		<td>{{i.cantidad}}</td>
-				        		<td ><a class="mdl-navigation__link " href="/entrada/{{i.id}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">visibility</i>Ver</a>
-				        		{% if  user.is_superuser %}
-						       		 <a class="mdl-navigation__link " href="/edit/entrada/{{ i.id }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>	
-						        {% endif %}	          	
+				        		<td>
+				        			<a href="/entrada/{{i.id}}"><i class="material-icons enlaces">visibility</i>Ver</a>
+					        		{% if  user.is_superuser %}
+							       		 <a href="/edit/entrada/{{ i.id }}"><i class="material-icons enlaces">description</i>Editar</a>
+							        {% endif %}	
+						        </td>          	
 				        	</tr>
 				        {% endfor %}
 			        </tbody>
