@@ -31,7 +31,13 @@
 				        		<td>{{p.telefono}}</td>
 				        		<td>{{p.direccion}}</td>
 				        		{% if  user.is_superuser %}
-				        			<td><a class="mdl-navigation__link " href="/edit/sede/{{ p.id }}"><i class="mdl-	color-text--blue-grey-400 material-icons" role="presentation">description</i>Editar</a></td>		
+				        			<td>
+				        				<a href="/productos/{{ p.id }}"><i class="material-icons enlaces">work</i>Productos</a>
+				        				<a href="/entradas/{{ p.id }}"><i class="material-icons enlaces">offline_pin</i>Entradas</a>
+				        				<a href="/salidas/{{ p.id }}"><i class="material-icons enlaces">visibility_off</i>Salidas</a>
+				        				<a href="/edit/sede/{{ p.id }}"><i class="material-icons enlaces">description</i>Editar</a>
+
+				        			</td>		
 				        		{% endif %}          	
 				          </tr>
 			          {% endfor%}

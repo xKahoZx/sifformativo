@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-	{% if ban = entrada %}
-		Reporte por entrada
-	{% else %}
+	{% if ban == "salida" %}
 		Reporte por salida
+	{% else %}
+		Reporte por entrada
 	{% endif %}
 {% endblock %}
 
@@ -17,6 +17,11 @@
 	{% if user.is_authenticated and user.is_superuser %}	
 		<form action="." method="POST" enctype = "multiplar/form-data">
 			{% csrf_token %}
+			<select name="sede">
+				{% for p in sedes %}
+					<option>{{p.nombre_sede}}</option>
+				{% endfor%}
+			</select>
 			{% for field in form %}
 				{% if field.name  = "fecha_inicio" %}
 					<label>Fecha inicio</label>
@@ -35,15 +40,19 @@
 			<br>
 			<br>
 			<button class="btn waves-effect waves-light" type="submit" >Generar
-					<i class="material-icons right">note_add</i>
-				</button>
-				<button class="btn waves-effect waves-light" type="reset" >Limpiar
-					<i class="material-icons right">loop</i>
-				</button>
-
+				<i class="material-icons right">note_add</i>
+			</button>
+			<button class="btn waves-effect waves-light" type="reset" >Limpiar
+				<i class="material-icons right">loop</i>
+			</button>
+			
 		</form>
 		<br>		
 		{% if repor %}
+				<a class="btn waves-effect waves-light" href="/pdf/{{fecha_inicio}}/{{fecha_fin}}/{{ban}}/{{sede_id}}" >Generar PDF
+				<i class="material-icons right">subject</i>
+			</a>
+
 				{% if ban = "entrada" %}
 					<h5>Reporte de Entradas</h5>
 				{% else %}
@@ -52,7 +61,7 @@
 				<table class= "bordered striped highlight centered">
 					<thead>
 						<tr>
-							{% if ban = entrada %}
+							{% if ban == "entrada" %}
 								<th>Numero entrada</th>
 							{% else %}
 								<th>Numero salida</th>
@@ -95,6 +104,7 @@
 		{% else %}
 			<P>Debes estar autenticado para poder ver el contenido</P>
 			<a  class="waves-effect waves-light btn" href="{% url 'vista_login' %}"><i class="material-icons left medium">supervisor_account</i>Iniciar Sesion</a>
+
 		{% endif %}
 	{% endif %}
 {% endblock %}

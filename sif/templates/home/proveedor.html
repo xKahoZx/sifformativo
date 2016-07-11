@@ -34,7 +34,7 @@
 				          	<td> {{ p.apellido }}</td>
 				            <td>{{p.telefono}}</td>
 				            <td>{{p.razon_social}}</td>
-				            <td>
+				            <td>				            
 				        		<a href="/proveedor/{{p.id}}"><i class="material-icons enlaces">visibility</i>Ver</a>
 					        	{% if  user.is_superuser %}
 							    	<a href="/edit/proveedor/{{ p.id }}"><i class="material-icons enlaces">description</i>Editar</a>

@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block content %}
-	<h3 align="center">Salidas </h3>
+	{% if nombre %}
+		<h3 align="center">Salidas Sede {{nombre}}</h3>
+	{% else %}
+		<h3 align="center">Salidas</h3>
+	{% endif %}
 	{% if user.is_authenticated %}
 		<a  class="waves-effect waves-light btn" href="{% url 'vista_agregar_salida' %}"><i class="material-icons right">queue</i>Nuevo</a>
-	
-
  		<div >
 			{% if salida %}
 				<table class="highlight bordered striped centered">

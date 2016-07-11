@@ -28,14 +28,15 @@ class add_entrada_form(forms.ModelForm):
 	class Meta:
 		model 	= Entrada
 		exclude = ('producto','fecha_ingreso')
-		fields = ['codigobarras','cantidad','referencia','observacion']
+		fields = ['codigobarras','cantidad','referencia','sede','observacion']
 
 
 class edit_entrada_form(forms.ModelForm):
+	
 	class Meta:
 		model 	= Entrada
 		exclude = ('fecha_ingreso')
-		fields = ['producto','cantidad','referencia','observacion']
+		fields = ['cantidad','referencia','sede','observacion']
 
 		
 #Salida
@@ -78,7 +79,7 @@ class edit_salida_form(forms.ModelForm):
 	class Meta:
 		model 	= Salida
 		exclude = ('fecha_ingreso', 'codigobarras')
-		fields = ['producto','cantidad','tipo_salida','sede','descripcion']
+		fields = ['cantidad','tipo_salida','sede','descripcion']
 		
 
 #Proveedor
@@ -90,7 +91,7 @@ class add_prove_form(forms.ModelForm):
 class add_product_form(forms.ModelForm):
 	class Meta:
 		model = Producto
-		exclude = ('codigobarras','estado')
+		exclude = ('codigobarras','estado','sede')
 		
 
 

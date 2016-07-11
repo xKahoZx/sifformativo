@@ -17,6 +17,7 @@
             	<p><b>Entrada número: </b> {{entra.id}}</p>
               <p><b>Proveedor:</b> {{ entra.referencia.nombre }} </p>
             	<p><b>Referencia:</b> {{ entra.referencia.razon_social }} </p>
+              <p><b>Sede: </b>{{entra.sede.nombre_sede}}</p>
             	{% if entra.observacion == ""%}
             		<p><b>Observacion: </b>Sin observacion</p>
             	{% else %}
@@ -24,7 +25,7 @@
             	{% endif %}
 				      <p><b>Fecha de ingreso</b> {{ entra.fecha_ingreso }}</p>
 				      <p> <b>Cantidad:</b> {{ entra.cantidad }}</p>
-              <p><a  href="/media/codes/{{ entra.producto.codigobarras }}.png" target="_blank"><img src="/media/codes/{{ entra.producto.codigobarras }}.png" width="230px"></a></p><br>
+              <p><a  href="/media/codes/{{ entra.producto.codigobarras }}.png" target="_blank"><img src="/media/codes/{{ entra.producto.codigobarras }}.png" width="230px" ></a></p><br>
             </div>
             <div class="card-action">
               <a  href="/entradas/">Lista de entradas</a>

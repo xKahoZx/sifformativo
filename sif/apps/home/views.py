@@ -30,11 +30,15 @@ def single_entrada_view(request,id_entr):
 	ctx = {'entra': entrada}
 	return render_to_response('home/single_entrada.html', ctx, context_instance = RequestContext(request))
 
-def entrada_view(request):
-	lista_entrada = Entrada.objects.all()
-	ctx = {'entra': lista_entrada}
-	return render_to_response ('home/entrada.html', ctx, context_instance = RequestContext(request))
-
+def entrada_view(request, id_sede):
+	sedes = Sede.objects.all()
+	if sedes:
+		lista_entrada = Entrada.objects.filter(sede__id = id_sede)
+		nombre_sede = Sede.objects.get(id = id_sede).nombre_sede
+		ctx = {'entra': lista_entrada, 'nombre':nombre_sede}
+		return render_to_response ('home/entrada.html', ctx, context_instance = RequestContext(request))
+	else:
+		return render_to_response('home/entrada.html', context_instance = RequestContext(request))
 #Usuario
 
 def list_usuarios_view(request):
@@ -136,11 +140,15 @@ def single_salida_view(request, id_sal):
 	ctx = {'salida': sali}
 	return render_to_response('home/single_salida.html', ctx,  context_instance =RequestContext(request))
 
-def salidas_view(request):
-	sali = Salida.objects.all()
-	ctx = {'salida': sali}
-	return render_to_response('home/salidas.html', ctx, context_instance = RequestContext(request))
-
+def salidas_view(request, id_sede):
+	sedes = Sede.objects.all()
+	if sedes:
+		sali = Salida.objects.filter(sede__id = id_sede)
+		nombre_sede = Sede.objects.get(id = id_sede).nombre_sede
+		ctx = {'salida': sali, 'nombre':nombre_sede}
+		return render_to_response('home/salidas.html', ctx, context_instance = RequestContext(request))
+	else:
+		return render_to_response('home/salidas.html', context_instance = RequestContext(request))
 #Proveedor
 
 def proveedor_view(request):
@@ -160,11 +168,18 @@ def  single_product_view(request, id_prod):
 	ctx = {'producto':prod}
 	return render_to_response('home/single_producto.html',ctx,context_instance = RequestContext(request))
 		
-def productos_view(request):
-	lista_prod = Producto.objects.all()
-	ctx = {'Producto': lista_prod}
-	return render_to_response('home/productos.html', ctx,context_instance = RequestContext(request))
-
+def productos_view(request, id_Sede):
+	sedes = Sede.objects.all()
+	if sedes:
+		lista_prod = Producto.objects.filter(sede__id = id_Sede)
+		nombre_sede = Sede.objects.get(id = id_Sede).nombre_sede
+		total = 0
+		for p in lista_prod:
+			total = total + p.cantidad
+		ctx = {'Producto': lista_prod,'total':total,'nombre':nombre_sede}
+		return render_to_response('home/productos.html', ctx,context_instance = RequestContext(request))
+	else:
+		return render_to_response('home/productos.html',context_instance = RequestContext(request))
 
 #Registro de usuario
 def register_view(request):

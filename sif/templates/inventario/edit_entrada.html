@@ -10,6 +10,15 @@
 	{% if user.is_authenticated  and user.is_superuser = True %}
 	<form action="." method= "POST" enctype = "multipart/ form-data">
 		{% csrf_token %}
+		<select name = "producto">
+			<option>{{produc_ini}}</option>
+			{% for p in productos%}
+				{% if p.nombre == produc_ini%}
+				{% else %}
+					<option>{{p.nombre}}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
 		{{ form.as_p}}
 		<button class="btn waves-effect waves-light" type="submit" >Guardar
 			<i class="material-icons right">note_add</i>

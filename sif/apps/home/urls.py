@@ -11,7 +11,7 @@ urlpatterns = patterns('sif.apps.home.views',
 	url(r'^referencias/$', 'referencia_view' , name = 'vista_referencia'),
 	#Entrada
 	url(r'^entrada/(?P<id_entr>.*)/$', 'single_entrada_view', name = 'vista_single_entrada'),
-	url(r'^entradas/$', 'entrada_view' , name = 'vista_entrada'),
+	url(r'^entradas/(?P<id_sede>.*)/$', 'entrada_view' , name = 'vista_entrada'),
 	#Usuario
 	url(r'^usuario/(?P<id_user>.*)/$','single_usuario_view',name = 'vista_ver_usuario'),
 	url(r'^edit/user/(?P<id_user>.*)/$','edit_user_view',name = 'vista_editar_usuario'),
@@ -25,13 +25,13 @@ urlpatterns = patterns('sif.apps.home.views',
 	url(r'^act_user/(?P<id_user>.*)$','habilitar_user_view',name = 'vista_habilitar_usuario'),	
 	#Salida
 	url(r'^salida/(?P<id_sal>.*)/$','single_salida_view', name = 'vista_single_salida'), 
-	url(r'^salidas/$','salidas_view', name = 'vista_salida'), 
+	url(r'^salidas/(?P<id_sede>.*)/$','salidas_view', name = 'vista_salida'), 
 	#Proveedor
 	url(r'^proveedores/$','proveedor_view', name = 'vista_proveedores'), 
 	url(r'^proveedor/(?P<id_prov>.*)/$','single_proveedor_view', name = 'vista_proevedor'),
 	#Producto
 	url(r'^producto/(?P<id_prod>.*)/$', 'single_product_view' , name = 'vista_single_producto'),
-	url(r'^producto/$', 'productos_view', name = 'vista_productos'),	
+	url(r'^productos/(?P<id_Sede>.*)/$', 'productos_view', name = 'vista_productos'),	
 	#Registro usuario
 	url(r'^registro/$','register_view', name = 'vista_registro'),
 	#login - logout

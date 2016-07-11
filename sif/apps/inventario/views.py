@@ -18,12 +18,36 @@ def add_sede_view(request):
 		if formulario.is_valid():
 			add = formulario.save(commit = False)
 			add.save()
+			crear_productos_nueva_sede(add)
 			info = "Guardado satisfactoriamente"
 			return HttpResponseRedirect ('/sedes')
 	else:
 		formulario = add_sede_form()
 	ctx = {'form':formulario,'informacion': info}
 	return render_to_response('inventario/add_sede.html',ctx, context_instance = RequestContext(request))
+
+def crear_productos_nueva_sede(sede):
+	productos = Producto.objects.all().order_by('codigobarras')
+	if productos:
+		codigo_inicial = CodigoBarras.objects.get(id = 1)
+		codigo_final = codigo_inicial
+		tamanio = len(productos)
+		producto_aux = Producto.objects.get(id = 1)
+		producto_aux.id = tamanio + 1
+		producto_aux.sede = sede
+		producto_aux.cantidad = 0
+		producto_aux.save()
+		tamanio = tamanio + 1
+		for p in productos:	
+			if codigo_inicial != codigo_final:
+				producto_aux = p
+				producto_aux.id = tamanio + 1
+				producto_aux.sede = sede
+				producto_aux.cantidad = 0
+				producto_aux.save()
+				tamanio = tamanio + 1
+			codigo_inicial = codigo_final
+			codigo_final = p.codigobarras
 
 
 def edit_sede_view(request, id_sede):
@@ -80,7 +104,8 @@ def add_entrada_view(request):
 		formulario = add_entrada_form(request.POST)
 		if formulario.is_valid():
 			codigo = formulario.cleaned_data['codigobarras'] 
-			prod = Producto.objects.get(codigobarras__codigo = codigo)
+			sede = formulario.cleaned_data['sede']
+			prod = Producto.objects.get(codigobarras__codigo = codigo, sede = sede)
 			cant = formulario.cleaned_data['cantidad']
 			add = formulario.save(commit = False)
 			if (cant > 0):
@@ -104,13 +129,17 @@ def edit_entrada_view(request, id_entr):
 	entrada = Entrada.objects.get(pk =id_entr)
 	cant_ini = entrada.cantidad
 	prod = entrada.producto
+	producto = entrada.producto.nombre
+	productos = Producto.objects.filter(sede = 1)
 	if request.method == "POST":
 		formulario = edit_entrada_form(request.POST, request.FILES,  instance= entrada)
 		if formulario.is_valid():			
 			cant_fin = formulario.cleaned_data['cantidad']
+			sede = formulario.cleaned_data['sede']
+			nombre_producto = request.POST['producto']
 			edit_entrada = formulario.save(commit = False)
 			if cant_fin > 0 :
-				prod_aux = formulario.cleaned_data['producto']
+				prod_aux = Producto.objects.get(nombre = nombre_producto, sede = sede)
 				if prod.id == prod_aux.id:
 					if cant_ini > cant_fin:
 						cant_tol = cant_ini - cant_fin
@@ -131,16 +160,18 @@ def edit_entrada_view(request, id_entr):
 					prod_aux.cantidad = prod_aux.cantidad + cant_fin
 					prod.save()
 					prod_aux.save()
+					edit_entrada.producto = prod_aux
+					edit_entrada.sede = sede
 					edit_entrada.save()				
 					return HttpResponseRedirect('/entrada/%s'% edit_entrada.id)
 			else:
 				formulario = edit_entrada_form(instance = entrada)
 				mensaje = "Error, la cantidad debe ser mayor que o igual que 0"
-				ctx = {'form':  formulario, 'men':mensaje}
+				ctx = {'form':  formulario, 'productos':productos, 'produc_ini':producto,'men':mensaje}				
 				return  render_to_response('inventario/edit_entrada.html', ctx, context_instance = RequestContext(request))
 	else: 
-		formulario = edit_entrada_form(instance = entrada)
-	ctx = {'form':  formulario}
+		formulario = edit_entrada_form(instance = entrada)		
+	ctx = {'form':  formulario, 'productos':productos, 'produc_ini':producto}
 	return  render_to_response('inventario/edit_entrada.html', ctx, context_instance = RequestContext(request))
 
 
@@ -150,7 +181,9 @@ def add_salida_view(request):
 	if request.method == 'POST':
 			formulario = add_salida_form(request.POST)
 			if formulario.is_valid():
-				prod = Producto.objects.get(codigobarras=formulario.cleaned_data['codigobarras'])
+				sede = formulario.cleaned_data['sede']
+				codigo = formulario.cleaned_data['codigobarras']				
+				prod = Producto.objects.get(codigobarras__codigo = codigo, sede = sede)
 				cant = formulario.cleaned_data['cantidad']
 				aux =  prod.cantidad - cant
 				add = formulario.save(commit = False)
@@ -179,20 +212,21 @@ def add_salida_view(request):
 		return render_to_response('inventario/add_salida.html', ctx , context_instance = RequestContext(request))
 
 
-
-
 def edit_salida_view(request, id_sal):
 	sali = Salida.objects.get(id = id_sal)
 	cant_ini = sali.cantidad
 	prod = sali.producto
+	producto = sali.producto.nombre
+	productos = Producto.objects.filter(sede = 1)
 	if request.method == 'POST':
 		formulario = edit_salida_form(request.POST, request.FILES, instance = sali)
 		if formulario.is_valid():
 			cant_fin = formulario.cleaned_data['cantidad']			
 			edit_sal = formulario.save(commit = False)
-			if cant_fin > 0:
-				
-				prod_aux = formulario.cleaned_data['producto']
+			if cant_fin > 0:				
+				sede = formulario.cleaned_data['sede']
+				nombre_producto = request.POST['producto']
+				prod_aux = Producto.objects.get(nombre = nombre_producto, sede = sede)
 				if prod.id == prod_aux.id:
 					if cant_ini > cant_fin:
 						cant_tol = cant_ini - cant_fin
@@ -220,22 +254,24 @@ def edit_salida_view(request, id_sal):
 					if prod_aux.cantidad >= 0:
 						prod.save()
 						prod_aux.save()
+						edit_sal.producto = prod
+						edit_sal.sede = sede
 						edit_sal.save()				
 						return HttpResponseRedirect('/salida/%s'% edit_sal.id)
 					else:
 						formulario = edit_salida_form(instance = edit_sal)
 						mensaje = "No se puede agregar esta salida la cantidad no esta disponible"
-						ctx = {'men':mensaje, 'form': formulario}
+						ctx = {'form':  formulario, 'productos':productos, 'produc_ini':producto,'men':mensaje}
 						return render_to_response('inventario/edit_salida.html', ctx, context_instance = RequestContext(request))	
 			else:
 				formulario = edit_salida_form(instance = sali)
 				mensaje = "Error, la cantidad debe ser mayor que o igual que 0"
-				ctx = {'form':  formulario, 'men':mensaje}
+				ctx = {'form':  formulario, 'productos':productos, 'produc_ini':producto, 'men':mensaje}
 				return  render_to_response('inventario/edit_salida.html', ctx, context_instance = RequestContext(request))
 			
 	else:
 		formulario = edit_salida_form(instance = sali)
-	ctx = {'form': formulario}
+	ctx = {'form':  formulario, 'productos':productos, 'produc_ini':producto}
 	return render_to_response('inventario/edit_salida.html', ctx , context_instance = RequestContext(request))
 
 #Proveedor
@@ -282,15 +318,24 @@ def add_product_view(request):
 		if formulario.is_valid():
 			add = formulario.save(commit = False)
 			add.codigobarras = creaCodigoAux()
+			add.sede = Sede.objects.get(id = 1)	
 			add.save()
-			formulario.save_m2m()
+			id_prod = add.id - 1		
+			crear_producto_sedes(add)
 			info = "Guardado Satisfactoriamente"
-			return HttpResponseRedirect ('/producto/%s' %add.id)
+			return HttpResponseRedirect ('/producto/%s' %id_prod)
 	else:
 		formulario = add_product_form()
 	ctx = {'form':formulario,'informacion':info}
 	return render_to_response('inventario/add_product.html', ctx,context_instance = RequestContext(request))
 
+def crear_producto_sedes(add):
+	sedes = Sede.objects.all()	
+	for p in sedes:
+		add.sede = p
+		add.save()		
+		add.id = add.id + 1  
+	
 def edit_product_view(request, id_prod):
 	info = ""
 	prod = Producto.objects.get(pk = id_prod)
@@ -331,19 +376,23 @@ def creaCodigo(request):
 	
 	informacion = "Inicia"
 	if request.method == "POST":
-		informacion = "pasa post"
-		EAN = barcode.get_barcode_class('ean13')
-		
-		stamp = str((int(time.time())*100)+(segs) + 1000000000000)
-		ean = EAN(stamp)
-		ean.save("sif/media/codes/"+stamp)
-		crea = CodigoBarras(codigo=stamp)
-		crea.save()
-		informacion = "Terminado"
+		formulario = FormuCrea(request.POST)
+		if formulario.is_valid():
+			informacion = "pasa post"
+			EAN = barcode.get_barcode_class('ean13')
+			
+			codigo = formulario.cleaned_data['codigo'] 
+			ean = barcode.get_barcode('ean', codigo, writer=ImageWriter())
+			aux = int(codigo) / 10
+			ean.save("sif/media/codes/" + str(aux))
+			crea = CodigoBarras(codigo = aux)			
+			crea.save()		
+			
+			informacion = "Terminado"
         
-		return HttpResponseRedirect('/codigoBarras/%s' %crea.id)
+			return HttpResponseRedirect('/codigoBarras/%s' %crea.id)
 	else:
-		formulario = "<input type='submit' name='envia' value='envia'>"
+		formulario = FormuCrea()
 		
 	ctx = {'form': formulario,'info':informacion}
 	return render_to_response('inventario/agregaCB.html',ctx,context_instance = RequestContext(request))
